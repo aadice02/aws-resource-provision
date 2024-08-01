@@ -30,17 +30,19 @@ module "eks" {
       desired_size = 2
     }
 
-    two = {
-      name = "node-group-2"
-
-      instance_types = ["t3.small"]
-
-      min_size = 1
-      max_size = 2
-      desired_size = 1
-    }
   }
 }
+
+
+terraform {  
+    backend "s3" {
+        bucket  = "tfstate-rka"
+        encrypt = true
+        key     = "awsresource.tfstate"    
+        region  = "us-east-1"  
+    }
+}
+
 
 output "ecr_repository_url" {
   value = aws_ecr_repository.this.repository_url
